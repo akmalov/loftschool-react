@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from './Header';
-import Map from '../pages/Map';
+import MapPage from '../pages/Map/MapPage';
 import Profile from '../pages/Profile';
 
 const routesMap = {
@@ -33,7 +33,7 @@ class Layout extends Component {
     return (
       <>
         <Header onChangePage={this.onChangePage} />
-        {showMapPage && <Map />}
+        {showMapPage && <MapPage />}
         {showProfilePage && <Profile />}
       </>
     );
