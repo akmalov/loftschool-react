@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Container, Grid, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 import Login from './Login';
 import SignUp from './SignUp';
@@ -16,46 +17,45 @@ const styles = {
   },
 };
 
-class Auth extends Component {
-  state = {
-    showSignIn: true,
-    showSignUp: false,
-  };
+function Auth (props) {
+  const [showSignIn, setSignIn] = useState(true);
+  const [showSignUp, setSignUp] = useState(false);
 
-  onChangeToSignUp = event => {
+  const onChangeToSignUp = event => {
     event.preventDefault();
 
-    this.setState({ showSignIn: false, showSignUp: true });
+    setSignIn(false);
+    setSignUp(true);
   };
 
-  onChangeToSignIn = event => {
+  const onChangeToSignIn = event => {
     event.preventDefault();
 
-    this.setState({ showSignIn: true, showSignUp: false });
+    setSignIn(true);
+    setSignUp(false);
   };
 
-  render() {
-    const { classes, onAuthSubmit } = this.props;
-    const { showSignIn, showSignUp } = this.state;
-
-    return (
-      <Box display="flex" height="100%" className={classes.background}>
-        <Container maxWidth="md">
-          <Grid container className={classes.grid} alignItems="center">
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="center">
-                <img src={logo} alt="Лого"/>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              {showSignIn && <Login onSignInSubmit={onAuthSubmit} onChangeToSignUp={this.onChangeToSignUp} />}
-              {showSignUp && <SignUp onSignUpSubmit={onAuthSubmit} onChangeToSignIn={this.onChangeToSignIn} />}
-            </Grid>
+  return (
+    <Box display="flex" height="100%" className={props.classes.background}>
+      <Container maxWidth="md">
+        <Grid container className={props.classes.grid} alignItems="center">
+          <Grid item xs={6}>
+            <Box display="flex" justifyContent="center">
+              <img src={logo} alt="Лого"/>
+            </Box>
           </Grid>
-        </Container>
-      </Box>
-    );
-  }
+          <Grid item xs={6}>
+            {showSignIn && <Login onSignInSubmit={props.onAuthSubmit} onChangeToSignUp={onChangeToSignUp} />}
+            {showSignUp && <SignUp onSignUpSubmit={props.onAuthSubmit} onChangeToSignIn={onChangeToSignIn} />}
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 }
+
+Auth.propTypes = {
+  classes: PropTypes.object,
+};
 
 export default withStyles(styles)(Auth);

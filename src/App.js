@@ -1,36 +1,31 @@
-import React, { Component } from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
+import React, {useState} from 'react';
+import {MuiThemeProvider} from '@material-ui/core';
 
 import Auth from './pages/Auth.js';
 import Layout from './common/Layout.js';
 import theme from './theme';
 
-class App extends Component {
-  state = {
-    showAuthPage: true,
-    showMainPage: false,
-  };
+function App() {
+  const [showAuthPage, setAuthPage] = useState(true);
+  const [showMainPage, setMainPage] = useState(false);
 
-  onAuthSubmit = event => {
+  const onAuthSubmit = event => {
     event.preventDefault();
-
-    this.setState({ showMainPage: true, showAuthPage: false });
+    setMainPage(true);
+    setAuthPage(false);
   };
 
-  onSignOut = () => {
-    this.setState({ showMainPage: false, showAuthPage: true });
+  const onSignOut = () => {
+    setMainPage(false);
+    setAuthPage(true);
   };
 
-  render() {
-    const { showAuthPage, showMainPage } = this.state;
-
-    return (
-      <MuiThemeProvider theme={theme}>
-        {showAuthPage && <Auth onAuthSubmit={this.onAuthSubmit} />}
-        {showMainPage && <Layout onSignOut={this.onSignOut} />}
-      </MuiThemeProvider>
-    );
-  }
+  return (
+    <MuiThemeProvider theme={theme}>
+      {showAuthPage && <Auth onAuthSubmit={onAuthSubmit}/>}
+      {showMainPage && <Layout onSignOut={onSignOut}/>}
+    </MuiThemeProvider>
+  );
 }
 
 export default App;

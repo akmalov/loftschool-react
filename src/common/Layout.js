@@ -1,42 +1,34 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 
 import Header from './Header';
 import MapPage from '../pages/Map/MapPage';
 import Profile from '../pages/Profile';
 
-const routesMap = {
-  map: { showMapPage: true, showProfilePage: false },
-  profile: { showMapPage: false, showProfilePage: true },
-};
+function Layout(props) {
+  const [showMapPage, setMapPage] = useState(true);
+  const [showProfilePage, setProfilePage] = useState(false);
 
-class Layout extends Component {
-  state = {
-    showMapPage: true,
-    showProfilePage: false,
-  };
-
-  onChangePage = route => event => {
+  const onChangePage = route => event => {
     event.preventDefault();
-
     if (route === 'signOut') {
-      this.props.onSignOut();
-
-      return;
+      props.onSignOut();
+    } else if (route === 'map') {
+      setProfilePage(false);
+      setMapPage(true);
+    } else if (route === 'profile') {
+      setMapPage(false);
+      setProfilePage(true);
     }
-
-    this.setState(routesMap[route]);
   };
 
-  render() {
-    const { showMapPage, showProfilePage } = this.state;
+  return (
+    <>
+      <Header onChangePage={onChangePage}/>
+      {showMapPage && <MapPage/>}
+      {showProfilePage && <Profile/>}
+    </>
+  );
 
-    return (
-      <>
-        <Header onChangePage={this.onChangePage} />
-        {showMapPage && <MapPage />}
-        {showProfilePage && <Profile />}
-      </>
-    );
-  }
 }
+
 export default Layout;

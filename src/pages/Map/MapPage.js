@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Map from './Map';
 
-class MapPage extends Component {
-  render() {
-    return <Map />;
-  }
+function MapPage() {
+  return <Map/>;
 }
 
 export default MapPage;
