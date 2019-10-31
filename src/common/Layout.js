@@ -1,34 +1,50 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {AuthContext} from "../common/AuthContext";
 
 import Header from './Header';
-import MapPage from '../pages/Map/MapPage';
+import Map from '../pages/Map/Map';
 import Profile from '../pages/Profile';
+import Auth from "../components/Auth";
 
-function Layout(props) {
-  const [showMapPage, setMapPage] = useState(true);
+function Layout() {
+  const context = useContext(AuthContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(context.isLoggedIn);
+  const [showMap, setMap] = useState(true);
   const [showProfilePage, setProfilePage] = useState(false);
-
   const onChangePage = route => event => {
     event.preventDefault();
-    if (route === 'signOut') {
-      props.onSignOut();
-    } else if (route === 'map') {
+    if (route === 'map') {
       setProfilePage(false);
-      setMapPage(true);
+      setMap(true);
     } else if (route === 'profile') {
-      setMapPage(false);
+      setMap(false);
       setProfilePage(true);
+    } else if (route === 'signOut') {
+      context.logout();
+      setIsLoggedIn(context.isLoggedIn);
     }
   };
 
-  return (
-    <>
-      <Header onChangePage={onChangePage}/>
-      {showMapPage && <MapPage/>}
-      {showProfilePage && <Profile/>}
-    </>
-  );
+  const onAuthSubmit = user => event => {
+    context.login(user);
+    setIsLoggedIn(context.isLoggedIn);
+  };
 
+  if (isLoggedIn) {
+    return (
+      <>
+        <Header onChangePage={onChangePage}/>
+        {showMap && <Map/>}
+        {showProfilePage && <Profile/>}
+      </>
+    )
+  } else {
+    return (
+      <>
+        <Auth onAuthSubmit={onAuthSubmit}/>
+      </>
+    )
+  }
 }
 
 export default Layout;

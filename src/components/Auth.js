@@ -3,8 +3,8 @@ import { Container, Grid, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import Login from './Login';
-import SignUp from './SignUp';
+import Login from "../pages/Auth/Login/Login";
+import SignUp from '../pages/Auth/SignUp/SignUp';
 import background from '../images/background.jpg';
 import logo from '../images/logo-intro.png';
 
@@ -18,21 +18,16 @@ const styles = {
 };
 
 function Auth (props) {
-  const [showSignIn, setSignIn] = useState(true);
-  const [showSignUp, setSignUp] = useState(false);
+  const [showLogin, setLogin] = useState(true);
 
   const onChangeToSignUp = event => {
     event.preventDefault();
-
-    setSignIn(false);
-    setSignUp(true);
+    setLogin(false);
   };
 
-  const onChangeToSignIn = event => {
+  const onChangeToLogin = event => {
     event.preventDefault();
-
-    setSignIn(true);
-    setSignUp(false);
+    setLogin(true);
   };
 
   return (
@@ -45,8 +40,8 @@ function Auth (props) {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            {showSignIn && <Login onSignInSubmit={props.onAuthSubmit} onChangeToSignUp={onChangeToSignUp} />}
-            {showSignUp && <SignUp onSignUpSubmit={props.onAuthSubmit} onChangeToSignIn={onChangeToSignIn} />}
+            {showLogin && <Login onLoginSubmit={props.onAuthSubmit} onChangeToSignUp={onChangeToSignUp} />}
+            {!showLogin && <SignUp onSignUpSubmit={props.onAuthSubmit} onChangeToLogin={onChangeToLogin} />}
           </Grid>
         </Grid>
       </Container>
