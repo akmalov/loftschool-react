@@ -43,7 +43,7 @@ function Map() {
     }
   });
 
-  return <div ref={el => (mapContainer.current = el)} style={style}/>;
+  return <div data-testid="map" ref={el => (mapContainer.current = el)} style={style}/>;
 }
 
 export default Map;

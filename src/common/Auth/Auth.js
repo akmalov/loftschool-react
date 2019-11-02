@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Container, Grid, Box } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import React, {useContext, useState} from 'react';
+import {Container, Grid, Box} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {AuthContext} from "../AuthContext/AuthContext";
 
-import Login from "../pages/Auth/Login/Login";
-import SignUp from '../pages/Auth/SignUp/SignUp';
-import background from '../images/background.jpg';
-import logo from '../images/logo-intro.png';
+import Login from "../../pages/Auth/Login/Login";
+import SignUp from '../../pages/Auth/SignUp/SignUp';
+import background from '../../images/background.jpg';
+import logo from '../../images/logo-intro.png';
 
 const styles = {
   background: {
@@ -17,7 +18,8 @@ const styles = {
   },
 };
 
-function Auth (props) {
+function Auth(props) {
+  const context = useContext(AuthContext);
   const [showLogin, setLogin] = useState(true);
 
   const onChangeToSignUp = event => {
@@ -30,6 +32,11 @@ function Auth (props) {
     setLogin(true);
   };
 
+  const onAuthSubmit = user => event => {
+    event.preventDefault();
+    context.login(user);
+  };
+
   return (
     <Box display="flex" height="100%" className={props.classes.background}>
       <Container maxWidth="md">
@@ -40,8 +47,8 @@ function Auth (props) {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            {showLogin && <Login onLoginSubmit={props.onAuthSubmit} onChangeToSignUp={onChangeToSignUp} />}
-            {!showLogin && <SignUp onSignUpSubmit={props.onAuthSubmit} onChangeToLogin={onChangeToLogin} />}
+            {showLogin && <Login onLoginSubmit={onAuthSubmit} onChangeToSignUp={onChangeToSignUp}/>}
+            {!showLogin && <SignUp onSignUpSubmit={onAuthSubmit} onChangeToLogin={onChangeToLogin}/>}
           </Grid>
         </Grid>
       </Container>

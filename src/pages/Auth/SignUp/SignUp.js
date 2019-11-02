@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Typography, Box, Link, TextField, Grid, Button} from '@material-ui/core';
-import AuthFormWrapper from '../../../components/AuthFormWrapper';
+import AuthFormWrapper from '../../../components/AuthFormWrapper/AuthFormWrapper';
 
 const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
   const [user, setUser] = useState({
@@ -20,10 +20,10 @@ const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
       <Typography variant="h5" component="h3">Регистрация</Typography>
       <Box mt={1}>
         <Typography variant="body1">
-          Уже зарегистрирован? <Link href="#" onClick={onChangeToLogin}>Войти</Link>
+          Уже зарегистрирован? <Link href="#" onClick={onChangeToLogin} data-testid="to-login">Войти</Link>
         </Typography>
       </Box>
-      <form noValidate onSubmit={onSignUpSubmit(user)}>
+      <form noValidate onSubmit={onSignUpSubmit(user)} data-testid="signup">
         <TextField fullWidth margin="normal" label="Адрес электронной почты" required type="email"
                    onChange={onInputChange}/>
         <Grid container spacing={2}>

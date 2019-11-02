@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Profile() {
-  return  <div>Профиль</div>;
+  return  <div data-testid="profile">Профиль</div>;
 }
 
 export default Profile;
