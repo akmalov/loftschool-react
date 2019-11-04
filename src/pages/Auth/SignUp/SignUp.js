@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Typography, Box, Link, TextField, Grid, Button} from '@material-ui/core';
 import AuthFormWrapper from '../../../components/AuthFormWrapper/AuthFormWrapper';
+import PropTypes from "prop-types";
 
 const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
   const [user, setUser] = useState({
@@ -47,3 +48,7 @@ const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
 };
 
 export default SignUp;
+
+SignUp.propTypes = {
+  setPage: PropTypes.func
+};

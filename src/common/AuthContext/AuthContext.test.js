@@ -35,7 +35,7 @@ describe('AuthContext', () => {
       .toEqual('isLoggedIn: true');
   });
 
-  it('after call login isLoggedIn should equal false', () => {
+  it('after call logout isLoggedIn should equal false', () => {
     const {getByTestId} = render(getAuthProvideMock());
 
     fireEvent.click(getByTestId('login'));
