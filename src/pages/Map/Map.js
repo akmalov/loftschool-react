@@ -10,9 +10,9 @@ const style = {
 };
 
 function Map() {
-  const [lng] = useState(30.315912);
-  const [lat] = useState(59.939035);
-  const [zoom] = useState(12);
+  const lng = 30.315912;
+  const lat = 59.939035;
+  const zoom = 12;
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
