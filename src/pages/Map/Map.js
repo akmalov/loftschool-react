@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import mapboxgl from "mapbox-gl";
+import pageTitleService from "../../common/pageTitleService/pageTitleService";
+import Header from "../../common/Header/Header";
 
 const style = {
   position: 'absolute',
@@ -15,6 +17,11 @@ function Map() {
   const zoom = 12;
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
+
+  useEffect(() => {
+    pageTitleService("Карта");
+    return () => pageTitleService();
+  });
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWttb2wiLCJhIjoiY2syYzliM3JvMDhreTNkcW1zeGpzaDJiNCJ9.DjN3mPc5_NFq5G3a2MzGZQ';
@@ -43,7 +50,12 @@ function Map() {
     }
   });
 
-  return <div data-testid="map" ref={el => (mapContainer.current = el)} style={style}/>;
+  return (
+    <>
+      <Header/>
+      <div data-testid="map" ref={el => (mapContainer.current = el)} style={style}/>
+    </>
+  )
 }
 
 export default Map;

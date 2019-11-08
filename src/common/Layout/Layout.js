@@ -1,5 +1,4 @@
 import React, {useState, useContext} from 'react';
-import {AuthContext} from "../AuthContext/AuthContext";
 
 import Header from '../Header/Header';
 import Map from '../../pages/Map/Map';

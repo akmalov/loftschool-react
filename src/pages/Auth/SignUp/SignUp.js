@@ -1,27 +1,38 @@
-import React, {useState} from "react";
-import {Typography, Box, Link, TextField, Grid, Button} from '@material-ui/core';
-import AuthFormWrapper from '../../../components/AuthFormWrapper/AuthFormWrapper';
+import React, {useContext, useState} from "react";
+import {Typography, Box, TextField, Grid, Button} from '@material-ui/core';
+import Auth from '../../../common/Auth/Auth';
 import PropTypes from "prop-types";
+import {useHistory, Link} from "react-router-dom";
 
-const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
+import {AuthContext} from "../../../common/AuthContext/AuthContext";
+
+const SignUp = () => {
   const [user, setUser] = useState({
     email: "",
     name: "",
     surname: "",
     password: ""
   });
+  const context = useContext(AuthContext);
+  const history = useHistory();
 
   const onInputChange = event => {
     let input = event.target;
     setUser({...user, [input.name]: input.value});
   };
 
+  const onSignUpSubmit = user => event => {
+    event.preventDefault();
+    history.push("/map");
+    context.login(user);
+  };
+
   return (
-    <AuthFormWrapper>
+    <Auth>
       <Typography variant="h5" component="h3">Регистрация</Typography>
       <Box mt={1}>
         <Typography variant="body1">
-          Уже зарегистрирован? <Link href="#" onClick={onChangeToLogin} data-testid="to-login">Войти</Link>
+          Уже зарегистрирован? <Link to="/login" data-testid="to-login">Войти</Link>
         </Typography>
       </Box>
       <form noValidate onSubmit={onSignUpSubmit(user)} data-testid="signup">
@@ -43,7 +54,7 @@ const SignUp = ({onSignUpSubmit, onChangeToLogin}) => {
           <Button variant="contained" type="submit">Зарегистрироваться</Button>
         </Box>
       </form>
-    </AuthFormWrapper>
+    </Auth>
   );
 };
 
