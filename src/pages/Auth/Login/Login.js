@@ -1,20 +1,27 @@
 import React, {useContext, useState} from "react";
 import {Typography, Box, TextField, Button} from '@material-ui/core';
-import Auth from '../../../common/Auth/Auth';
+import Auth from '../../../common/containers/Auth/Auth';
 import PropTypes from "prop-types";
 import {useHistory, Link} from "react-router-dom";
-
+import serverConfig from '../../../common/serverConfig/serverConfig';
 import {AuthContext} from "../../../common/AuthContext/AuthContext";
 
 export const Login = () => {
   const [user, setUser] = useState({email: "", password: ""});
-  const context = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
   const history = useHistory();
 
   const onLoginSubmit = user => event => {
     event.preventDefault();
-    history.push("/map");
-    context.login(user);
+    serverConfig.post("/auth", user)
+      .then(response => {
+        login(user);
+        history.push("/map");
+        localStorage.setItem("token", response.data.token);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const onInputChange = event => {

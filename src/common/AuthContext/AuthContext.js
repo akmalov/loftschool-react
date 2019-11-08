@@ -10,6 +10,7 @@ class AuthProvider extends Component {
   };
 
   logout = () => {
+    localStorage.clear();
     this.setState({isLoggedIn: false});
   };
 

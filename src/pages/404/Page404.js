@@ -1,10 +1,14 @@
 import React from "react";
+import Header from "../Profile/Profile";
 
 const Page404 = () => {
   return (
-    <div>
-      Страница не найдена
-    </div>
+    <>
+      <Header/>
+      <div>
+        Страница не найдена
+      </div>
+    </>
   );
 };
 

@@ -1,20 +1,23 @@
 import React from "react";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
+import createStorage from "./common/storage/storage"
 
-import Main from './common/Main/Main.js';
+import Main from './common/containers/Main/Main.js';
 import theme from "./theme";
-import {AuthProvider} from "./common/AuthContext/AuthContext";
 
 function App() {
+  const store = createStorage();
+
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <BrowserRouter>
         <MuiThemeProvider theme={theme}>
           <Main/>
         </MuiThemeProvider>
       </BrowserRouter>
-    </AuthProvider>
+    </Provider>
   );
 }
 

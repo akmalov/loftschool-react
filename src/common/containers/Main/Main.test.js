@@ -1,7 +1,7 @@
 import React from "react";
 import {fireEvent, render} from "@testing-library/react";
-import {AuthProvider} from "../AuthContext/AuthContext";
-import {links} from "../Header/Header";
+import {AuthProvider} from "../../AuthContext/AuthContext";
+import {links} from "../../Header/Header";
 import Main from "./Main";
 
 it('after submit login form should login', () => {

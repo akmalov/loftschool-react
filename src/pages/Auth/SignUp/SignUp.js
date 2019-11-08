@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react";
 import {Typography, Box, TextField, Grid, Button} from '@material-ui/core';
-import Auth from '../../../common/Auth/Auth';
+import Auth from '../../../common/containers/Auth/Auth';
 import PropTypes from "prop-types";
 import {useHistory, Link} from "react-router-dom";
-
+import serverConfig from '../../../common/serverConfig/serverConfig';
 import {AuthContext} from "../../../common/AuthContext/AuthContext";
 
 const SignUp = () => {
@@ -13,7 +13,7 @@ const SignUp = () => {
     surname: "",
     password: ""
   });
-  const context = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
   const history = useHistory();
 
   const onInputChange = event => {
@@ -23,8 +23,15 @@ const SignUp = () => {
 
   const onSignUpSubmit = user => event => {
     event.preventDefault();
-    history.push("/map");
-    context.login(user);
+    serverConfig.post("/register", user)
+      .then(response => {
+        login(user.email);
+        history.push("/map");
+        localStorage.setItem("token", response.data.token);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
