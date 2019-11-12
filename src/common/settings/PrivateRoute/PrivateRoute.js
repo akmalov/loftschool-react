@@ -12,7 +12,7 @@ const PrivateRoute = (props) => {
     <Route {...rest} render={routeProps => (
       isLoggedIn
         ? <Component {...routeProps} />
-        : <Redirect to='/login'/>
+        : <Redirect to='/register'/>
     )}/>
   );
 };
@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
 PrivateRoute.propTypes = {
   login: PropTypes.shape({isLoggedIn: PropTypes.bool.isRequired}).isRequired,
   path: PropTypes.string.isRequired,
-  component: PropTypes.object.isRequired
+  component: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(PrivateRoute);

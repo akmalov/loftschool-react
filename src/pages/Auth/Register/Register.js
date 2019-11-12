@@ -17,7 +17,7 @@ class Register extends Component {
   };
 
   componentDidMount() {
-    pageTitleService("Авторизация");
+    pageTitleService("Регистрация");
     return () => pageTitleService();
   }
 

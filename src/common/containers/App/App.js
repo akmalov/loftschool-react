@@ -5,7 +5,7 @@ import Login from '../../../pages/Auth/Login/Login';
 import Register from '../../../pages/Auth/Register/Register';
 import PrivateRoute from '../../settings/PrivateRoute/PrivateRoute';
 import Map from '../../../pages/Map/Map';
-import Profile from '../../../pages/Map/Map';
+import Profile from '../../../pages/Profile/Profile';
 
 const App = (props) => (
   <Switch>
