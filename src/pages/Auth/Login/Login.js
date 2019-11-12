@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {Link as RouterLink, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {loginRequest, getLogin} from '../../../redux/login';
+import {getLogin, loginRequest} from '../../../redux/login';
 import Auth from '../../../common/containers/Auth/Auth';
 import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 

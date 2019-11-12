@@ -5,6 +5,7 @@ import {Link as RouterLink, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 
 import {getRegister, registerRequest} from '../../../redux/register';
+import {getLogin} from '../../../redux/login';
 import Auth from '../../../common/containers/Auth/Auth';
 import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 
@@ -21,6 +22,14 @@ class Register extends Component {
     return () => pageTitleService();
   }
 
+  componentDidUpdate(prevProps) {
+    const {register: {token}, history} = this.props;
+
+    if (token && token !== prevProps.register.token) {
+      history.push('/login');
+    }
+  }
+
   onInputChange = event => {
     let input = event.target;
     this.setState({[input.name]: input.value});
@@ -33,7 +42,7 @@ class Register extends Component {
   };
 
   render() {
-    const {register: {isLoading, isLoggedIn}} = this.props;
+    const {register: {isLoading}, login: {isLoggedIn}} = this.props;
 
     if (isLoggedIn) {
       return <Redirect to="/map"/>;
@@ -72,7 +81,8 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  register: getRegister(state)
+  register: getRegister(state),
+  login: getLogin(state)
 });
 
 Register.propTypes = {
@@ -80,6 +90,9 @@ Register.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     token: PropTypes.string,
   }).isRequired,
+  login: PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+  }),
   history: PropTypes.object.isRequired,
   registerRequest: PropTypes.func.isRequired,
 };

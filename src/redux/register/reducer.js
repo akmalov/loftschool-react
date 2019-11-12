@@ -8,21 +8,15 @@ export default handleActions({
       ...state,
       isLoading: true,
       token: null,
-      error: null,
-      isLoggedIn: false
+      error: null
     };
   },
   [actions.registerSuccess](state, {payload}) {
-    if (localStorage.getItem('token') !== payload) {
-      localStorage.setItem('token', payload);
-    }
-
     return {
       ...state,
       isLoading: false,
       token: payload,
-      error: null,
-      isLoggedIn: true
+      error: null
     };
   },
   [actions.registerFailure](state, {payload}) {
@@ -30,8 +24,7 @@ export default handleActions({
       ...state,
       isLoading: false,
       token: null,
-      error: payload,
-      isLoggedIn: false
+      error: payload
     };
   },
 }, {isLoading: false, token: null, error: null, isLoggedIn: false});
