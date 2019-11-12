@@ -7,7 +7,7 @@ export default handleActions({
     return {
       isLoading: true,
       error: null,
-      expiryDate: new Date(),
+      expiryDate: new Date('2019-12'),
       cardName: '',
       cardNumber: '',
       cvc: ''
@@ -27,10 +27,10 @@ export default handleActions({
     return {
       isLoading: false,
       error: payload,
-      expiryDate: new Date(),
+      expiryDate: new Date('2019-12'),
       cardName: '',
       cardNumber: '',
       cvc: ''
     };
   },
-}, {isLoading: false, error: null, expiryDate: new Date(), cardName: '', cardNumber: '', cvc: ''});
+}, {isLoading: false, error: null, expiryDate: new Date('2019-12'), cardName: '', cardNumber: '', cvc: ''});

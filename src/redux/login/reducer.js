@@ -9,7 +9,7 @@ export default handleActions({
       isLoading: true,
       token: null,
       error: null,
-      isLoggedIn: false,
+      isLoggedIn: false
     };
   },
   [actions.loginSuccess](state, {payload}) {
@@ -22,7 +22,7 @@ export default handleActions({
       isLoading: false,
       token: payload,
       error: null,
-      isLoggedIn: true,
+      isLoggedIn: true
     };
   },
   [actions.loginFailure](state, {payload}) {
@@ -31,7 +31,7 @@ export default handleActions({
       isLoading: false,
       token: null,
       error: payload,
-      isLoggedIn: false,
+      isLoggedIn: false
     };
   },
   [actions.logout](state) {
@@ -42,7 +42,7 @@ export default handleActions({
       isLoading: false,
       token: null,
       error: null,
-      isLoggedIn: false,
+      isLoggedIn: false
     };
   }
 }, {isLoading: false, token: null, error: null, isLoggedIn: false});

@@ -56,6 +56,7 @@ class Profile extends Component {
 
   render() {
     const {classes, bankCard: {isLoading}} = this.props;
+    const {expiryDate, cardNumber, cardName, cvc} = this.state;
 
     return (
       <>
@@ -77,12 +78,12 @@ class Profile extends Component {
                         <Paper className={classes.paper}>
                           <Box display="flex" justifyContent="space-around" flexDirection="column" height="100%">
                             <TextField fullWidth label="Номер карты" placeholder="0000 0000 0000 0000"
-                                       name="cardNumber" value={this.cardNumber} onChange={this.onCardNumberChange}
+                                       name="cardNumber" value={cardNumber} onChange={this.onCardNumberChange}
                                        InputLabelProps={{shrink: true}} inputProps={{maxLength: 19}} required
                             />
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DatePicker format="MM/yy" label="Срок действия" minDate={new Date()}
-                                          maxDate={new Date("2028-12-01")} name="expiryDate" value={this.expiryDate}
+                                          maxDate={new Date("2028-12-01")} name="expiryDate" value={expiryDate}
                                           onChange={this.onDateChange} required
                               />
                             </MuiPickersUtilsProvider>
@@ -93,10 +94,11 @@ class Profile extends Component {
                         <Paper className={classes.paper}>
                           <Box display="flex" justifyContent="space-around" flexDirection="column" height="100%">
                             <TextField fullWidth label="Имя владельца" placeholder="ИМЯ ВЛАДЕЛЬЦА" name="cardName"
-                                       value={this.cardName} onChange={this.onInputChange} InputLabelProps={{shrink: true}}
+                                       value={cardName} onChange={this.onInputChange}
+                                       InputLabelProps={{shrink: true}}
                                        required
                             />
-                            <TextField fullWidth label="CVC" placeholder="000" name="cvc" value={this.cvc}
+                            <TextField fullWidth label="CVC" placeholder="000" name="cvc" value={cvc}
                                        onChange={this.onInputChange}
                                        InputLabelProps={{shrink: true}} inputProps={{maxLength: 3}} required
                             />
