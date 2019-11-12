@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import mapboxgl from "mapbox-gl";
-import pageTitleService from "../../common/pageTitleService/pageTitleService";
-import Header from "../../common/Header/Header";
+import pageTitleService from "../../common/settings/pageTitleService/pageTitleService";
+import Header from "../../common/components/Header/Header";
 
 const style = {
   position: 'absolute',

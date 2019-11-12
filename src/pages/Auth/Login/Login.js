@@ -1,57 +1,79 @@
-import React, {useContext, useState} from "react";
-import {Typography, Box, TextField, Button} from '@material-ui/core';
-import Auth from '../../../common/containers/Auth/Auth';
+import React, {Component} from "react";
+import {Typography, Box, TextField, Button, Link} from '@material-ui/core';
 import PropTypes from "prop-types";
-import {useHistory, Link} from "react-router-dom";
-import serverConfig from '../../../common/serverConfig/serverConfig';
-import {AuthContext} from "../../../common/AuthContext/AuthContext";
+import {Link as RouterLink, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
-export const Login = () => {
-  const [user, setUser] = useState({email: "", password: ""});
-  const {login} = useContext(AuthContext);
-  const history = useHistory();
+import {loginRequest, getLogin} from '../../../redux/login';
+import Auth from '../../../common/containers/Auth/Auth';
+import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 
-  const onLoginSubmit = user => event => {
-    event.preventDefault();
-    serverConfig.post("/auth", user)
-      .then(response => {
-        login(user);
-        history.push("/map");
-        localStorage.setItem("token", response.data.token);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+class Login extends Component {
+  state = {
+    email: '',
+    password: '',
   };
 
-  const onInputChange = event => {
+  componentDidMount() {
+    pageTitleService("Авторизация");
+    return () => pageTitleService();
+  }
+
+  onInputChange = event => {
     let input = event.target;
-    setUser({...user, [input.name]: input.value});
+    this.setState({[input.name]: input.value});
   };
 
-  return (
-    <Auth>
-      <Typography variant="h5" component="h3">Войти</Typography>
-      <Box mt={1}>
-        <Typography variant="body1">
-          Новый пользователь? <Link to="/" data-testid="to-signup">Зарегистрируйтесь</Link>
-        </Typography>
-      </Box>
-      <form noValidate onSubmit={onLoginSubmit(user)} data-testid="login">
-        <TextField fullWidth margin="normal" name="email" label="Имя пользователя" required
-                   onChange={onInputChange}/>
-        <TextField fullWidth margin="normal" name="password" label="Пароль" required type="password"
-                   onChange={onInputChange}/>
-        <Box mt={3} display="flex" justifyContent="flex-end">
-          <Button variant="contained" type="submit">Войти</Button>
-        </Box>
-      </form>
-    </Auth>
-  );
-};
+  onLoginSubmit = event => {
+    event.preventDefault();
+    if (this.state.email && this.state.password) {
+      const {loginRequest} = this.props;
+      loginRequest(this.state);
+    }
+  };
 
-export default Login;
+  render() {
+    const {login: {isLoading, isLoggedIn}} = this.props;
+
+    if (isLoggedIn) {
+      return <Redirect to="/map"/>;
+    }
+
+    return (
+      <Auth>
+        <Typography variant="h5" component="h3">Войти</Typography>
+        <Box mt={1}>
+          <Typography variant="body1">
+            Новый пользователь? <Link component={RouterLink} to="/register"
+                                      data-testid="to-register">Зарегистрируйтесь</Link>
+          </Typography>
+        </Box>
+        <form noValidate onSubmit={this.onLoginSubmit} data-testid="login">
+          <TextField fullWidth margin="normal" name="email" label="Имя пользователя" required
+                     onChange={this.onInputChange}/>
+          <TextField fullWidth margin="normal" name="password" label="Пароль" required type="password"
+                     onChange={this.onInputChange}/>
+          <Box mt={3} display="flex" justifyContent="flex-end">
+            <Button variant="contained" type="submit" disabled={isLoading}>Войти</Button>
+          </Box>
+        </form>
+      </Auth>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  login: getLogin(state),
+});
 
 Login.propTypes = {
-  setPage: PropTypes.func
+  login: PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    token: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.object.isRequired,
+  loginRequest: PropTypes.func.isRequired,
 };
+
+export default connect(mapStateToProps, {loginRequest})(Login);

@@ -1,18 +1,10 @@
-import React, {useContext} from "react";
+import React from "react";
 import {AppBar, Toolbar, Box, Button} from '@material-ui/core';
 import {NavLink} from "react-router-dom";
-import logo from '../../images/logo.png';
-import {AuthContext} from "../AuthContext/AuthContext";
+import logo from '../../../assets/images/logo.png';
+import PropTypes from 'prop-types';
 
-export const links = [
-  {id: 0, value: 'Карта', route: 'map'},
-  {id: 1, value: 'Профиль', route: 'profile'},
-  {id: 2, value: 'Выйти', route: 'logout'},
-];
-
-const Header = () => {
-  const {logout} = useContext(AuthContext);
-
+const Header = ({onLogout}) => {
   return (
     <AppBar position="static" data-testid="header">
       <Toolbar>
@@ -26,13 +18,17 @@ const Header = () => {
           <Button component={NavLink} to="/profile" data-testid='button-profile'>
             Профиль
           </Button>
-          <Button onClick={logout} data-testid='button-logout'>
+          <Button onClick={onLogout} data-testid='button-logout'>
             Выйти
           </Button>
         </Box>
       </Toolbar>
     </AppBar>
   );
+};
+
+Header.propTypes = {
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default Header;

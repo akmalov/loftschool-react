@@ -1,12 +1,12 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 
-import SignUp from './SignUp';
+import Register from './SignUp';
 
-describe('SignUp', () => {
+describe('Register', () => {
   it('should render without errors', () => {
     const {queryByTestId} = render(
-      <SignUp onChangeToLogin={() => {
+      <Register onChangeToLogin={() => {
       }} onSignUpSubmit={() => {
       }}/>
     );

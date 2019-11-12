@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "../../common/Header/Header";
+import Header from "../../common/components/Header/Header";
 
 function Profile() {
   return (

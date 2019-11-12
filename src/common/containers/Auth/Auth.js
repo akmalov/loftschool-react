@@ -3,8 +3,8 @@ import {Container, Grid, Box, Paper} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import background from '../../../images/background.jpg';
-import logo from '../../../images/logo-intro.png';
+import background from '../../../assets/images/background.jpg';
+import logo from '../../../assets/images/logo-intro.png';
 
 const styles = {
   background: {
@@ -35,7 +35,8 @@ function Auth(props) {
 }
 
 Auth.propTypes = {
-  classes: PropTypes.object,
+  classes: PropTypes.shape({grid: PropTypes.string.isRequired}).isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
 export default withStyles(styles)(Auth);
