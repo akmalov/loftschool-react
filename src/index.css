@@ -12,7 +12,8 @@ body {
   background: #f2f2f2;
 }
 
-body #root {
+body #root,
+body #root > div {
   height: 100vh;
 }
 

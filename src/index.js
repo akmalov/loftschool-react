@@ -11,6 +11,7 @@ import reducers from './redux';
 import {loginMiddleware} from './redux/login';
 import {registerMiddleware} from './redux/register';
 import {loginSuccess} from './redux/login';
+import {cardPostMiddleware} from './redux/bankCard';
 import theme from './common/settings/theme';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -18,7 +19,8 @@ const store = createStore(
   reducers,
   composeEnhancers(
     applyMiddleware(loginMiddleware),
-    applyMiddleware(registerMiddleware)
+    applyMiddleware(registerMiddleware),
+    applyMiddleware(cardPostMiddleware)
   ),
 );
 const token = localStorage.getItem('token');
