@@ -49,12 +49,12 @@ class Login extends Component {
           </Typography>
         </Box>
         <form noValidate onSubmit={this.onLoginSubmit} data-testid="login">
-          <TextField fullWidth margin="normal" name="email" label="Имя пользователя" required
+          <TextField data-testid="loginEmail" fullWidth margin="normal" name="email" label="Имя пользователя" required
                      onChange={this.onInputChange}/>
-          <TextField fullWidth margin="normal" name="password" label="Пароль" required type="password"
+          <TextField data-testid="loginPassword" fullWidth margin="normal" name="password" label="Пароль" required type="password"
                      onChange={this.onInputChange}/>
           <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button variant="contained" type="submit" disabled={isLoading}>Войти</Button>
+            <Button data-testid="loginSubmitButton" variant="contained" type="submit" disabled={isLoading}>Войти</Button>
           </Box>
         </form>
       </Auth>
@@ -72,7 +72,6 @@ Login.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     token: PropTypes.string,
   }).isRequired,
-  history: PropTypes.object.isRequired,
   loginRequest: PropTypes.func.isRequired,
 };
 

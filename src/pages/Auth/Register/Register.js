@@ -57,22 +57,22 @@ class Register extends Component {
           </Typography>
         </Box>
         <form noValidate onSubmit={this.onRegisterSubmit} data-testid="register">
-          <TextField fullWidth margin="normal" name="email" label="Адрес электронной почты" required type="email"
-                     onChange={this.onInputChange}/>
+          <TextField inputProps={{"data-testid": "registerEmail"}} fullWidth margin="normal" name="email" label="Адрес электронной почты" required
+                     type="email" onChange={this.onInputChange}/>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField fullWidth margin="normal" name="name" label="Имя" required
+              <TextField inputProps={{"data-testid": "registerName"}} fullWidth margin="normal" name="name" label="Имя" required
                          onChange={this.onInputChange}/>
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth margin="normal" name="surname" label="Фамилия" required
+              <TextField inputProps={{"data-testid": "registerSurname"}} fullWidth margin="normal" name="surname" label="Фамилия" required
                          onChange={this.onInputChange}/>
             </Grid>
           </Grid>
-          <TextField fullWidth margin="normal" name="password" label="Пароль" required type="password"
+          <TextField inputProps={{"data-testid": "registerPassword"}} fullWidth margin="normal" name="password" label="Пароль" required type="password"
                      onChange={this.onInputChange}/>
           <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button variant="contained" type="submit" disabled={isLoading}>Зарегистрироваться</Button>
+            <Button data-testid="registerSubmitButton" variant="contained" type="submit" disabled={isLoading}>Зарегистрироваться</Button>
           </Box>
         </form>
       </Auth>
@@ -93,7 +93,6 @@ Register.propTypes = {
   login: PropTypes.shape({
     isLoggedIn: PropTypes.bool.isRequired,
   }),
-  history: PropTypes.object.isRequired,
   registerRequest: PropTypes.func.isRequired,
 };
 
