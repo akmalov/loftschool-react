@@ -1,39 +1,78 @@
-import React, {useState} from "react";
-import {Typography, Box, Link, TextField, Button} from '@material-ui/core';
-import AuthFormWrapper from '../../../components/AuthFormWrapper/AuthFormWrapper';
+import React, {Component} from "react";
+import {Typography, Box, TextField, Button, Link} from '@material-ui/core';
 import PropTypes from "prop-types";
+import {Link as RouterLink, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
-export const Login = ({onLoginSubmit, onChangeToSignUp}) => {
-  const [user, setUser] = useState({email: "", password: ""});
+import {getLogin, loginRequest} from '../../../redux/login';
+import Auth from '../../../common/containers/Auth/Auth';
+import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 
-  const onInputChange = event => {
-    let input = event.target;
-    setUser({...user, [input.name]: input.value});
+class Login extends Component {
+  state = {
+    email: '',
+    password: '',
   };
 
-  return (
-    <AuthFormWrapper>
-      <Typography variant="h5" component="h3">Войти</Typography>
-      <Box mt={1}>
-        <Typography variant="body1">
-          Новый пользователь? <Link href="#" onClick={onChangeToSignUp} data-testid="to-signup">Зарегистрируйтесь</Link>
-        </Typography>
-      </Box>
-      <form noValidate onSubmit={onLoginSubmit(user)} data-testid="login">
-        <TextField fullWidth margin="normal" name="email" label="Имя пользователя" required
-                   onChange={onInputChange}/>
-        <TextField fullWidth margin="normal" name="password" label="Пароль" required type="password"
-                   onChange={onInputChange}/>
-        <Box mt={3} display="flex" justifyContent="flex-end">
-          <Button variant="contained" type="submit">Войти</Button>
-        </Box>
-      </form>
-    </AuthFormWrapper>
-  );
-};
+  componentDidMount() {
+    pageTitleService("Авторизация");
+    return () => pageTitleService();
+  }
 
-export default Login;
+  onInputChange = event => {
+    let input = event.target;
+    this.setState({[input.name]: input.value});
+  };
+
+  onLoginSubmit = event => {
+    event.preventDefault();
+    if (this.state.email && this.state.password) {
+      const {loginRequest} = this.props;
+      loginRequest(this.state);
+    }
+  };
+
+  render() {
+    const {login: {isLoading, isLoggedIn}} = this.props;
+
+    if (isLoggedIn) {
+      return <Redirect to="/map"/>;
+    }
+
+    return (
+      <Auth>
+        <Typography variant="h5" component="h3">Войти</Typography>
+        <Box mt={1}>
+          <Typography variant="body1">
+            Новый пользователь? <Link component={RouterLink} to="/register"
+                                      data-testid="to-register">Зарегистрируйтесь</Link>
+          </Typography>
+        </Box>
+        <form noValidate onSubmit={this.onLoginSubmit} data-testid="login">
+          <TextField data-testid="loginEmail" fullWidth margin="normal" name="email" label="Имя пользователя" required
+                     onChange={this.onInputChange}/>
+          <TextField data-testid="loginPassword" fullWidth margin="normal" name="password" label="Пароль" required type="password"
+                     onChange={this.onInputChange}/>
+          <Box mt={3} display="flex" justifyContent="flex-end">
+            <Button data-testid="loginSubmitButton" variant="contained" type="submit" disabled={isLoading}>Войти</Button>
+          </Box>
+        </form>
+      </Auth>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  login: getLogin(state),
+});
 
 Login.propTypes = {
-  setPage: PropTypes.func
+  login: PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    token: PropTypes.string,
+  }).isRequired,
+  loginRequest: PropTypes.func.isRequired,
 };
+
+export default connect(mapStateToProps, {loginRequest})(Login);
