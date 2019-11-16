@@ -4,7 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from '../../../pages/Auth/Login/Login';
 import Register from '../../../pages/Auth/Register/Register';
 import PrivateRoute from '../../settings/PrivateRoute/PrivateRoute';
-import Main from './containers/Main';
+import Main from '../Main/Main';
 
 const App = (props) => (
   <Switch>
