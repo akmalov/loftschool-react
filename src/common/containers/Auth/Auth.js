@@ -28,11 +28,11 @@ const Auth = Wrapper => {
       }
     }
 
-    handleSubmitLogin = values => {
+    onSubmitLogin = values => {
       this.props.loginRequest(values);
     };
 
-    handleSubmitRegister = values => {
+    onSubmitRegister = values => {
       this.props.registerRequest(values);
     };
 
@@ -57,8 +57,8 @@ const Auth = Wrapper => {
               <Grid item xs={6}>
                 <Paper width={500} isLoading={loginIsLoading || registerIsLoading}>
                   <Wrapper
-                    handleSubmitLogin={this.handleSubmitLogin}
-                    handleSubmitRegister={this.handleSubmitRegister}
+                    onSubmitLogin={this.onSubmitLogin}
+                    onSubmitRegister={this.onSubmitRegister}
                     loginError={loginError}
                     registerError={registerError}
                     isRegisterSubmitted={submitted}
