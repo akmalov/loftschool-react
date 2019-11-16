@@ -4,8 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from '../../../pages/Auth/Login/Login';
 import Register from '../../../pages/Auth/Register/Register';
 import PrivateRoute from '../../settings/PrivateRoute/PrivateRoute';
-import Map from '../../../pages/Map/Map';
-import Profile from '../../../pages/Profile/Profile';
+import Main from './containers/Main';
 
 const App = (props) => (
   <Switch>
@@ -14,8 +13,7 @@ const App = (props) => (
     </Route>
     <Route path="/login" component={Login}/>
     <Route path="/register" component={Register}/>
-    <PrivateRoute path="/map" component={Map}/>
-    <PrivateRoute path="/profile" component={Profile}/>
+    <PrivateRoute path="/dashboard" component={Main} />
     <Redirect to="/map"/>
   </Switch>
 );

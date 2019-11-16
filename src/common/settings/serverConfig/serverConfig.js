@@ -1,8 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
-const serverConfig = axios.create({
-  baseURL: "https://loft-taxi.glitch.me",
+const server = axios.create({
+  baseURL: 'https://loft-taxi.glitch.me',
   headers: {"Content-Type": "application/json"}
 });
 
-export default serverConfig;
+export const requestLogin = async authData => {
+  const {data} = await server.post('/auth', authData);
+  return data;
+};
+
+export const requestRegister = async registerData => {
+  const {data} = await server.post('/register', registerData);
+  return data;
+};
