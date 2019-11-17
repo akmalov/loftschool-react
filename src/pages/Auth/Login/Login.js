@@ -18,7 +18,7 @@ function Login({loginError, onSubmitLogin}) {
     <Fragment>
       <Typography variant="h5" component="h3">Войти</Typography>
       <Box mt={1}>
-        <Typography variant="body1">Новый пользователь?
+        <Typography variant="body1"><span>Новый пользователь? </span>
           <Link component={RouterLink} to="/register">
             Зарегистрируйтесь
           </Link>
@@ -32,7 +32,7 @@ function Login({loginError, onSubmitLogin}) {
             .email('Введите email')
             .required('Это обязательное поле'),
           password: Yup.string()
-            .min(8, 'Пароль должен состоять минимум из 8 символов')
+            .min(6, 'Пароль должен состоять минимум из 6 символов')
             .required('Это обязательное поле'),
         })}
       >

@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {BrowserRouter} from "react-router-dom";
 
 import rootReducer from "../../redux";
-import {cardPostRequest} from "../../redux/bankCard";
+import {cardPostRequest} from "../../redux/profile";
 import Profile from "./Profile";
 
 describe('Profile', () => {

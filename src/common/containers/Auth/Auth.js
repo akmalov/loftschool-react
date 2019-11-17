@@ -38,8 +38,8 @@ const Auth = Wrapper => {
 
     render() {
       const {classes, login, register} = this.props;
-      const {isLoggedIn, isLoading: loginIsLoading, error: loginError} = login;
-      const {isLoading: registerIsLoading, error: registerError, submitted} = register;
+      const {isLoggedIn, error: loginError} = login;
+      const {error: registerError, submitted} = register;
 
       if (isLoggedIn) {
         return <Redirect to="/map"/>;
@@ -55,14 +55,16 @@ const Auth = Wrapper => {
                 </Box>
               </Grid>
               <Grid item xs={6}>
-                <Paper width={500} isLoading={loginIsLoading || registerIsLoading}>
-                  <Wrapper
-                    onSubmitLogin={this.onSubmitLogin}
-                    onSubmitRegister={this.onSubmitRegister}
-                    loginError={loginError}
-                    registerError={registerError}
-                    isRegisterSubmitted={submitted}
-                  />
+                <Paper width={500}>
+                  <Box px={4} py={5}>
+                    <Wrapper
+                      onSubmitLogin={this.onSubmitLogin}
+                      onSubmitRegister={this.onSubmitRegister}
+                      loginError={loginError}
+                      registerError={registerError}
+                      isRegisterSubmitted={submitted}
+                    />
+                  </Box>
                 </Paper>
               </Grid>
             </Grid>

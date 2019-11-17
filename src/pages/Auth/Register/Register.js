@@ -24,7 +24,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
         Регистрация
       </Typography>
       <Box mt={1}>
-        <Typography variant="body1">Уже зарегистрирован?
+        <Typography variant="body1"><span>Уже зарегистрирован? </span>
           <Link component={RouterLink} to="/login">
             Войти
           </Link>
@@ -38,7 +38,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
             .email('Введите email')
             .required('Это обязательное поле'),
           password: Yup.string()
-            .min(8, 'Пароль должен состоять минимум из 8 символов')
+            .min(6, 'Пароль должен состоять минимум из 6 символов')
             .required('Это обязательное поле'),
           name: Yup.string()
             .required('Это обязательное поле'),

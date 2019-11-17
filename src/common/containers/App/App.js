@@ -13,8 +13,8 @@ const App = (props) => (
     </Route>
     <Route path="/login" component={Login}/>
     <Route path="/register" component={Register}/>
-    <PrivateRoute path="/main" component={Main} />
-    <Redirect to="/map"/>
+    <PrivateRoute path="/cabinet" component={Main} />
+    <Redirect to="/cabinet"/>
   </Switch>
 );
 

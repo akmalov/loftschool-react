@@ -7,10 +7,13 @@ import {logout, getLogin} from '../../../redux/auth';
 import Header from '../../components/Header/Header';
 import Map from '../../../pages/Map/Map';
 import Profile from '../../../pages/Profile/Profile';
+import {fetchCardRequest} from '../../../redux/profile';
 
 class Main extends Component {
   componentDidMount() {
-    const {login: {token}} = this.props;
+    const {login: {token}, fetchCardRequest} = this.props;
+
+    fetchCardRequest(token);
   }
 
   onLogout = event => {
@@ -42,4 +45,4 @@ Main.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, {logout})(Main);
+export default connect(mapStateToProps, {logout, fetchCardRequest})(Main);
