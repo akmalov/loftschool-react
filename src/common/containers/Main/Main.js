@@ -8,12 +8,14 @@ import Header from '../../components/Header/Header';
 import Map from '../../../pages/Map/Map';
 import Profile from '../../../pages/Profile/Profile';
 import {fetchCardRequest} from '../../../redux/profile';
+import {fetchAddressesRequest} from '../../../redux/map';
 
 class Main extends Component {
   componentDidMount() {
-    const {login: {token}, fetchCardRequest} = this.props;
+    const {login: {token}, fetchCardRequest, fetchAddressesRequest} = this.props;
 
     fetchCardRequest(token);
+    fetchAddressesRequest();
   }
 
   onLogout = event => {
@@ -45,4 +47,4 @@ Main.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, {logout, fetchCardRequest})(Main);
+export default connect(mapStateToProps, {logout, fetchCardRequest, fetchAddressesRequest})(Main);

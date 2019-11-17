@@ -28,7 +28,7 @@ class Profile extends Component {
     this.props.initCreateCard();
   }
 
-  handleSubmitProfile = values => {
+  onSubmitProfile = values => {
     const {createCardRequest, login} = this.props;
 
     createCardRequest({...values, token: login.token});
@@ -38,7 +38,7 @@ class Profile extends Component {
     const {classes, profile: {submitted, card}} = this.props;
 
     return (
-      <div data-testid="profile-page" style={{display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: "50px"}} className={classes.background}>
+      <div data-testid="profile" style={{display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: "50px"}} className={classes.background}>
         <Box display="flex" justifyContent="center">
           <Paper>
             <Box px={4} py={5} display="flex" flexDirection="column" alignItems="center">
@@ -49,7 +49,7 @@ class Profile extends Component {
                 Способ оплаты
               </Typography>
               <Box mt={5}>
-                {!submitted && <ProfileForm card={card} handleSubmitProfile={this.handleSubmitProfile}/>}
+                {!submitted && <ProfileForm card={card} handleSubmitProfile={this.onSubmitProfile}/>}
 
                 {submitted && (
                   <Box align="center">

@@ -6,14 +6,14 @@ import * as Yup from 'yup';
 import FormikDatePicker from '../../common/components/FormikDatePicker/FormikDatePicker';
 import FormikInput from '../../common/components/FormikInput/FormikInput';
 
-const ProfileForm = ({card, handleSubmitProfile}) => {
+const ProfileForm = ({card, onSubmitProfile}) => {
   const values = {expiryDate: new Date(), cardNumber: '', cardName: '', cvc: ''};
 
   return (
     <Formik
       enableReinitialize
       initialValues={card || values}
-      onSubmit={values => handleSubmitProfile(values)}
+      onSubmit={values => onSubmitProfile(values)}
       validationSchema={Yup.object({
         cardNumber: Yup.string()
           .min(19, 'Введите 19 цифр')
