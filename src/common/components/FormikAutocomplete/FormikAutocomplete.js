@@ -2,7 +2,7 @@ import React from 'react';
 import {Autocomplete} from '@material-ui/lab';
 import {TextField} from '@material-ui/core';
 
-const FormikDatePicker = ({form: {setFieldValue}, field: {name, value}, placeholder, ...rest}) => {
+const FormikDatePicker = ({form: {setFieldValue}, field: {name, value}, ...rest}) => {
   return (
     <Autocomplete
       {...rest}
@@ -14,7 +14,7 @@ const FormikDatePicker = ({form: {setFieldValue}, field: {name, value}, placehol
         setFieldValue(name, value.currentTarget.textContent);
       }}
       renderInput={params => (
-        <TextField {...params} placeholder={placeholder} margin="normal" fullWidth/>
+        <TextField {...params} placeholder={value} margin="normal" fullWidth/>
       )}
     />
   );

@@ -6,7 +6,7 @@ import FormikAutocomplete from '../../common/components/FormikAutocomplete/Formi
 
 const AddressesForm = ({addresses, onSubmitAddresses}) => (
   <Formik
-    initialValues={{addressFrom: '', addressTo: ''}}
+    initialValues={{addressFrom: 'Откуда', addressTo: 'Куда'}}
     onSubmit={onSubmitAddresses}>
     {({values: {addressFrom, addressTo}}) => (
       <Form noValidate>

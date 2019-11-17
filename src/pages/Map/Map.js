@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Typography, Button, Box, Paper} from '@material-ui/core';
+import {Typography, Button, Box} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 
 import MapForm from './MapForm';
@@ -8,6 +8,7 @@ import MapBox from './MapBox';
 import {getProfile} from '../../redux/profile';
 import {getAddresses, fetchRoutesRequest, initMap, getRoutes} from '../../redux/map';
 import pageTitleService from "../../common/settings/pageTitleService/pageTitleService";
+import WrapperContainer from "../../common/containers/WrapperContainer/WrapperContainer";
 
 class Map extends Component {
   componentDidMount() {
@@ -31,63 +32,50 @@ class Map extends Component {
     const isFormShown = !submitted && (!!card || isProfileLoading);
     const isProfileMessageShown = !card && !isProfileLoading && !submitted;
 
-    if (!isProfileLoading && !isAddressesLoading) {
-      return (
-        <div data-testid="map" style={{position: 'relative', paddingTop: "50px"}}>
-          <MapBox/>
-          <Box display="flex" justifyContent="flex-start" style={{marginLeft: "50px"}}>
-            <Paper style={{zIndex: 1000}}>
+    return (
+      <div data-testid="map" style={{position: 'relative', paddingTop: "50px"}}>
+        <MapBox/>
+        <WrapperContainer width={650} isLoading={isProfileLoading || isAddressesLoading}>
+          {isFormShown && (
+            <MapForm
+              addresses={addresses}
+              onSubmitAddresses={this.onSubmitAddresses}
+            />
+          )}
 
-              <Box width={650} px={4} py={5}>
-                {isFormShown && (
-                  <MapForm
-                    addresses={addresses}
-                    onSubmitAddresses={this.onSubmitAddresses}
-                  />
-                )}
-
-                {isProfileMessageShown && (
-                  <Fragment>
-                    <Box mb={4}>
-                      <Typography variant="h4">
-                        Заполните платежные данные
-                      </Typography>
-                    </Box>
-                    <Box mb={4}>
-                      <Typography variant="body1">
-                        Укажите информацию о банковской карте, чтобы сделать заказ.
-                      </Typography>
-                    </Box>
-                    <Button variant="contained" to="/cabinet/profile" component={Link} fullWidth>
-                      Перейти в профиль
-                    </Button>
-                  </Fragment>
-                )}
-
-                {submitted && (
-                  <Fragment>
-                    <Box mb={4}>
-                      <Typography variant="h4">
-                        Спасибо за заказ, такси скоро приедет!
-                      </Typography>
-                    </Box>
-                    <Button variant="contained" fullWidth onClick={this.orderAgain}>
-                      Заказать снова
-                    </Button>
-                  </Fragment>
-                )}
+          {isProfileMessageShown && (
+            <Fragment>
+              <Box mb={4}>
+                <Typography variant="h4">
+                  Заполните платежные данные
+                </Typography>
               </Box>
-            </Paper>
-          </Box>
-        </div>
-      );
-    } else {
-      return (
-        <div data-testid="map" style={{position: 'relative', paddingTop: "50px"}}>
-          <MapBox/>
-        </div>
-      )
-    }
+              <Box mb={4}>
+                <Typography variant="body1">
+                  Укажите информацию о банковской карте, чтобы сделать заказ.
+                </Typography>
+              </Box>
+              <Button variant="contained" to="/cabinet/profile" component={Link} fullWidth>
+                Перейти в профиль
+              </Button>
+            </Fragment>
+          )}
+
+          {submitted && (
+            <Fragment>
+              <Box mb={4}>
+                <Typography variant="h4">
+                  Спасибо за заказ, такси скоро приедет!
+                </Typography>
+              </Box>
+              <Button variant="contained" fullWidth onClick={this.orderAgain}>
+                Заказать снова
+              </Button>
+            </Fragment>
+          )}
+        </WrapperContainer>
+      </div>
+    );
   }
 }
 
