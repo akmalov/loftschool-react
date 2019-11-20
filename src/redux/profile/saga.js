@@ -4,7 +4,7 @@ import * as actions from './actions';
 import * as paths from './paths';
 import * as api from '../../common/settings/serverConfig/serverConfig';
 
-function* createProfile({payload}) {
+export function* createProfile({payload}) {
   try {
     const result = yield call(api.createProfile, payload);
 
@@ -20,7 +20,7 @@ function* createProfile({payload}) {
   }
 }
 
-function* fetchProfile({payload}) {
+export function* fetchProfile({payload}) {
   try {
     const result = yield call(api.fetchProfile, payload);
 

@@ -19,7 +19,7 @@ function Login({loginError, onSubmitLogin}) {
       <Typography variant="h5" component="h3">Войти</Typography>
       <Box mt={1}>
         <Typography variant="body1"><span>Новый пользователь? </span>
-          <Link component={RouterLink} to="/register">
+          <Link component={RouterLink} to="/register" data-testid="to-register">
             Зарегистрируйтесь
           </Link>
         </Typography>

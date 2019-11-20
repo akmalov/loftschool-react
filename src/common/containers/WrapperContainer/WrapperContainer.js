@@ -1,6 +1,6 @@
 import React from 'react';
 import {Paper, Box} from '@material-ui/core';
-import Spinner from '../../components/Preloader/Preloader';
+import Preloader from '../../components/Preloader/Preloader';
 
 const WrapperContainer = ({children, isLoading, width, ...restProps}) => (
   <Box
@@ -14,7 +14,7 @@ const WrapperContainer = ({children, isLoading, width, ...restProps}) => (
     <Paper>
       <Box px={6} py={6} position="relative" {...restProps}>
         {children}
-        <Spinner show={isLoading}/>
+        <Preloader show={isLoading}/>
       </Box>
     </Paper>
   </Box>

@@ -1,56 +1,89 @@
 import reducer from "./reducer";
 
-describe("bank card reducer", () => {
-  it("should work with CARD_POST_REQUEST", () => {
+describe("profile reducer", () => {
+  it("should work with INIT", () => {
     expect(
       reducer([], {
-        type: "CARD_POST_REQUEST"
+        type: "profile/INIT"
       })
     ).toEqual({
+      submitted: false,
+    });
+  });
+
+  it("should work with CREATE_REQUEST", () => {
+    expect(
+      reducer([], {
+        type: "profile/CREATE_REQUEST"
+      })
+    ).toEqual({
+      error: null,
       isLoading: true,
-      expiryDate: new Date('2019-12'),
-      cardName: '',
-      cardNumber: '',
-      cvc: '',
-      error: null
+      submitted: false
     });
   });
 
-  it("should work with CARD_POST_SUCCESS", () => {
+  it("should work with CREATE_SUCCESS", () => {
     expect(
       reducer([], {
-        type: "CARD_POST_SUCCESS",
-        payload: {
-          isLoading: false,
-          expiryDate: new Date("2019-12"),
-          cardName: 'TEST TESTOV',
-          cardNumber: '1111222233334444',
-          cvc: '123'
-        }
+        type: "profile/CREATE_SUCCESS",
+        payload: {card: "card"}
       })
     ).toEqual({
+      card: {card: "card"},
+      error: null,
       isLoading: false,
-      expiryDate: new Date("2019-12"),
-      cardName: 'TEST TESTOV',
-      cardNumber: '1111222233334444',
-      cvc: '123',
-      error: null
+      submitted: true
     });
   });
 
-  it("should work with CARD_POST_FAILURE", () => {
+  it("should work with CREATE_FAILURE", () => {
     expect(
       reducer([], {
-        type: "CARD_POST_FAILURE",
+        type: "profile/CREATE_FAILURE",
         payload: "error"
       })
     ).toEqual({
-      isLoading: false,
-      expiryDate: new Date('2019-12'),
-      cardName: '',
-      cardNumber: '',
-      cvc: '',
-      error: "error"
+      error: "error",
+      isLoading: false
+    });
+  });
+
+  it("should work with FETCH_REQUEST", () => {
+    expect(
+      reducer([], {
+        type: "profile/FETCH_REQUEST"
+      })
+    ).toEqual({
+      error: null,
+      isLoading: true,
+      submitted: false,
+      card: null
+    });
+  });
+
+  it("should work with FETCH_SUCCESS", () => {
+    expect(
+      reducer([], {
+        type: "profile/FETCH_SUCCESS",
+        payload: {card: "card"}
+      })
+    ).toEqual({
+      card: {card: "card"},
+      error: null,
+      isLoading: false
+    });
+  });
+
+  it("should work with FETCH_FAILURE", () => {
+    expect(
+      reducer([], {
+        type: "profile/FETCH_FAILURE",
+        payload: "error"
+      })
+    ).toEqual({
+      error: "error",
+      isLoading: false
     });
   });
 });

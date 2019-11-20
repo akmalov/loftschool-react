@@ -25,7 +25,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
       </Typography>
       <Box mt={1}>
         <Typography variant="body1"><span>Уже зарегистрирован? </span>
-          <Link component={RouterLink} to="/login">
+          <Link component={RouterLink} to="/login" data-testid="to-login">
             Войти
           </Link>
         </Typography>
@@ -47,6 +47,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
         })}>
         <Form data-testid="register">
           <FormikInput
+            inputProps={{"data-testid": "registerEmail"}}
             margin="normal"
             label="Адрес электронной почты"
             type="email"
@@ -56,6 +57,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <FormikInput
+                inputProps={{"data-testid": "registerName"}}
                 margin="normal"
                 label="Имя"
                 name="name"
@@ -64,6 +66,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
             </Grid>
             <Grid item xs={6}>
               <FormikInput
+                inputProps={{"data-testid": "registerSurname"}}
                 fullWidth
                 margin="normal"
                 label="Фамилия"
@@ -72,6 +75,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
             </Grid>
           </Grid>
           <FormikInput
+            inputProps={{"data-testid": "registerPassword"}}
             fullWidth
             margin="normal"
             label="Пароль"
@@ -80,7 +84,7 @@ function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
             errorMessage={registerError}
           />
           <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button variant="contained" type="submit">Зарегистрироваться</Button>
+            <Button variant="contained" type="submit" data-testid="registerSubmitButton">Зарегистрироваться</Button>
           </Box>
         </Form>
       </Formik>

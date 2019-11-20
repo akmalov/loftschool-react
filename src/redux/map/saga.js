@@ -4,7 +4,7 @@ import * as actions from './actions';
 import * as paths from './paths';
 import * as api from '../../common/settings/serverConfig/serverConfig';
 
-function* fetchRoutes({payload}) {
+export function* fetchRoutes({payload}) {
   const {addressFrom, addressTo} = payload;
 
   try {
@@ -15,7 +15,7 @@ function* fetchRoutes({payload}) {
   }
 }
 
-function* fetchAddresses() {
+export function* fetchAddresses() {
   try {
     const {addresses} = yield call(api.fetchAddresses);
     yield put(actions.fetchAddressesSuccess(addresses));

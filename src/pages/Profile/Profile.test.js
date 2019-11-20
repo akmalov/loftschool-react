@@ -5,8 +5,8 @@ import {fireEvent} from "@testing-library/react";
 import {Provider} from 'react-redux';
 import {BrowserRouter} from "react-router-dom";
 
-import rootReducer from "../../redux";
-import {cardPostRequest} from "../../redux/profile";
+import rootReducer from "../../redux/reducer";
+import {fetchCardSuccess} from "../../redux/profile";
 import Profile from "./Profile";
 
 describe('Profile', () => {
@@ -27,7 +27,7 @@ describe('Profile', () => {
     let store = createStore(
       rootReducer,
       applyMiddleware(store => next => action => {
-        if (action.type === cardPostRequest.toString()) {
+        if (action.type === fetchCardSuccess.toString()) {
           return Promise.resolve();
         }
         return next(action);

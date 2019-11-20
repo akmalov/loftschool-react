@@ -5,11 +5,11 @@ import {fireEvent, wait} from "@testing-library/react";
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 
-import rootReducer from "../../../redux";
+import rootReducer from "../../../redux/reducer";
 import App from "../../../common/containers/App/App"
 import Login from './Login';
 
-import {loginRequest, loginSuccess} from "../../../redux/login";
+import {loginRequest, loginSuccess} from "../../../redux/auth";
 
 describe('Login', () => {
   it('should render without errors', () => {

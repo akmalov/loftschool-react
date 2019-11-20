@@ -4,7 +4,7 @@ import * as actions from './actions';
 import * as paths from './paths';
 import * as api from '../../common/settings/serverConfig/serverConfig';
 
-function* requestLogin({payload}) {
+export function* requestLogin({payload}) {
   try {
     const result = yield call(api.requestLogin, payload);
 
@@ -20,7 +20,7 @@ export function* loginSaga() {
   yield takeLatest(paths.LOGIN_REQUEST, requestLogin);
 }
 
-function* requestRegister({payload}) {
+export function* requestRegister({payload}) {
   try {
     const result = yield call(api.requestRegister, payload);
 
