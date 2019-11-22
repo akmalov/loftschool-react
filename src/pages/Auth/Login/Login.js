@@ -1,78 +1,62 @@
-import React, {Component} from "react";
-import {Typography, Box, TextField, Button, Link} from '@material-ui/core';
-import PropTypes from "prop-types";
-import {Link as RouterLink, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import React, {Fragment, useEffect} from 'react';
+import {Typography, Box, Button, Link} from '@material-ui/core';
+import {Link as RouterLink} from 'react-router-dom';
+import {Formik, Form} from 'formik';
+import * as Yup from 'yup';
 
-import {getLogin, loginRequest} from '../../../redux/login';
 import Auth from '../../../common/containers/Auth/Auth';
+import FormikInput from '../../../common/components/FormikInput/FormikInput';
 import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 
-class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-  };
-
-  componentDidMount() {
+function Login({loginError, onSubmitLogin}) {
+  useEffect(() => {
     pageTitleService("Авторизация");
     return () => pageTitleService();
-  }
+  });
 
-  onInputChange = event => {
-    let input = event.target;
-    this.setState({[input.name]: input.value});
-  };
-
-  onLoginSubmit = event => {
-    event.preventDefault();
-    if (this.state.email && this.state.password) {
-      const {loginRequest} = this.props;
-      loginRequest(this.state);
-    }
-  };
-
-  render() {
-    const {login: {isLoading, isLoggedIn}} = this.props;
-
-    if (isLoggedIn) {
-      return <Redirect to="/map"/>;
-    }
-
-    return (
-      <Auth>
-        <Typography variant="h5" component="h3">Войти</Typography>
-        <Box mt={1}>
-          <Typography variant="body1">
-            Новый пользователь? <Link component={RouterLink} to="/register"
-                                      data-testid="to-register">Зарегистрируйтесь</Link>
-          </Typography>
-        </Box>
-        <form noValidate onSubmit={this.onLoginSubmit} data-testid="login">
-          <TextField data-testid="loginEmail" fullWidth margin="normal" name="email" label="Имя пользователя" required
-                     onChange={this.onInputChange}/>
-          <TextField data-testid="loginPassword" fullWidth margin="normal" name="password" label="Пароль" required type="password"
-                     onChange={this.onInputChange}/>
+  return (
+    <Fragment>
+      <Typography variant="h5" component="h3">Войти</Typography>
+      <Box mt={1}>
+        <Typography variant="body1"><span>Новый пользователь? </span>
+          <Link component={RouterLink} to="/register" data-testid="to-register">
+            Зарегистрируйтесь
+          </Link>
+        </Typography>
+      </Box>
+      <Formik
+        initialValues={{email: '', password: ''}}
+        onSubmit={onSubmitLogin}
+        validationSchema={Yup.object({
+          email: Yup.string()
+            .email('Введите email')
+            .required('Это обязательное поле'),
+          password: Yup.string()
+            .min(6, 'Пароль должен состоять минимум из 6 символов')
+            .required('Это обязательное поле'),
+        })}
+      >
+        <Form data-testid="login">
+          <FormikInput
+            name="email"
+            margin="normal"
+            label="Email"
+            fullWidth
+          />
+          <FormikInput
+            name="password"
+            margin="normal"
+            label="Пароль"
+            type="password"
+            fullWidth
+            errorMessage={loginError}
+          />
           <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button data-testid="loginSubmitButton" variant="contained" type="submit" disabled={isLoading}>Войти</Button>
+            <Button variant="contained" type="submit">Войти</Button>
           </Box>
-        </form>
-      </Auth>
-    );
-  }
+        </Form>
+      </Formik>
+    </Fragment>)
 }
 
-const mapStateToProps = state => ({
-  login: getLogin(state),
-});
-
-Login.propTypes = {
-  login: PropTypes.shape({
-    isLoggedIn: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string,
-  }).isRequired,
-  loginRequest: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, {loginRequest})(Login);
+export default Auth(Login);

@@ -5,11 +5,11 @@ import {fireEvent, wait} from "@testing-library/react";
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 
-import rootReducer from "../../../redux";
+import rootReducer from "../../../redux/reducer";
 import App from "../../../common/containers/App/App"
 import Register from './Register';
 
-import {registerRequest, registerSuccess} from "../../../redux/register";
+import {registerRequest, registerSuccess} from "../../../redux/auth";
 
 describe('Register', () => {
   it('should render without errors', () => {

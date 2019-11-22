@@ -1,1 +1,0 @@
-export const getBankCard = state => state.bankCard;

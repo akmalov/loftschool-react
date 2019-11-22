@@ -1,61 +1,88 @@
-import React, {useState, useEffect, useRef} from 'react';
-import mapboxgl from "mapbox-gl";
+import React, {Component, Fragment} from 'react';
+import {connect} from 'react-redux';
+import {Typography, Button, Box} from '@material-ui/core';
+import {Link} from 'react-router-dom';
+
+import MapForm from './MapForm';
+import MapBox from './MapBox';
+import {getProfile} from '../../redux/profile';
+import {getAddresses, fetchRoutesRequest, initMap, getRoutes} from '../../redux/map';
 import pageTitleService from "../../common/settings/pageTitleService/pageTitleService";
-import Header from "../../common/components/Header/Header";
+import WrapperContainer from "../../common/containers/WrapperContainer/WrapperContainer";
 
-const style = {
-  position: 'absolute',
-  top: 64,
-  bottom: 0,
-  width: '100%',
-  height: window.innerHeight - 64,
-};
-
-function Map() {
-  const lng = 30.315912;
-  const lat = 59.939035;
-  const zoom = 12;
-  const [map, setMap] = useState(null);
-  const mapContainer = useRef(null);
-
-  useEffect(() => {
+class Map extends Component {
+  componentDidMount() {
+    this.props.initMap();
     pageTitleService("Карта");
-    return () => pageTitleService();
-  });
+  };
 
-  useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYWttb2wiLCJhIjoiY2syYzliM3JvMDhreTNkcW1zeGpzaDJiNCJ9.DjN3mPc5_NFq5G3a2MzGZQ';
-    const initializeMap = ({setMap, mapContainer}) => {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v9',
-        center: [lng, lat],
-        zoom: zoom
-      });
+  onSubmitAddresses = values => {
+    const {addressFrom, addressTo} = values;
+    this.props.fetchRoutesRequest({addressFrom, addressTo});
+  };
 
-      map.on("load", () => {
-        setMap(map);
-        map.resize();
-      });
-    };
+  orderAgain = () => {
+    this.props.initMap();
+  };
 
-    if (!map) initializeMap({setMap, mapContainer});
-  }, [lng, lat, zoom, map]);
+  render() {
+    const {profile, addresses: addressesList, routes: {submitted}} = this.props;
+    const {card, isLoading: isProfileLoading} = profile;
+    const {addresses, isLoading: isAddressesLoading} = addressesList;
+    const isFormShown = !submitted && (!!card || isProfileLoading);
+    const isProfileMessageShown = !card && !isProfileLoading && !submitted;
 
-  useEffect(() => {
-    if (map) {
-      return () => {
-        map.remove();
-      }
-    }
-  });
+    return (
+      <div data-testid="map" style={{position: 'relative', paddingTop: "50px"}}>
+        <MapBox/>
+        <WrapperContainer width={650} isLoading={isProfileLoading || isAddressesLoading}>
+          {isFormShown && (
+            <MapForm
+              addresses={addresses}
+              onSubmitAddresses={this.onSubmitAddresses}
+            />
+          )}
 
-  return (
-    <>
-      <Header/>
-      <div data-testid="map" ref={el => (mapContainer.current = el)} style={style}/>
-    </>
-  )
+          {isProfileMessageShown && (
+            <Fragment>
+              <Box mb={4}>
+                <Typography variant="h4">
+                  Заполните платежные данные
+                </Typography>
+              </Box>
+              <Box mb={4}>
+                <Typography variant="body1">
+                  Укажите информацию о банковской карте, чтобы сделать заказ.
+                </Typography>
+              </Box>
+              <Button variant="contained" to="/cabinet/profile" component={Link} fullWidth>
+                Перейти в профиль
+              </Button>
+            </Fragment>
+          )}
+
+          {submitted && (
+            <Fragment>
+              <Box mb={4}>
+                <Typography variant="h4">
+                  Спасибо за заказ, такси скоро приедет!
+                </Typography>
+              </Box>
+              <Button variant="contained" fullWidth onClick={this.orderAgain}>
+                Заказать снова
+              </Button>
+            </Fragment>
+          )}
+        </WrapperContainer>
+      </div>
+    );
+  }
 }
 
-export default Map;
+const mapStateToProps = state => ({
+  profile: getProfile(state),
+  addresses: getAddresses(state),
+  routes: getRoutes(state),
+});
+
+export default connect(mapStateToProps, {fetchRoutesRequest, initMap})(Map);

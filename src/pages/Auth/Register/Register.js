@@ -1,99 +1,95 @@
-import React, {Component} from "react";
-import {Typography, Box, TextField, Grid, Button, Link} from '@material-ui/core';
-import PropTypes from "prop-types";
-import {Link as RouterLink, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import React, {Fragment, useEffect} from 'react';
+import {Typography, Box, Grid, Button, Link} from '@material-ui/core';
+import {Link as RouterLink, Redirect} from 'react-router-dom';
+import {Formik, Form} from 'formik';
+import * as Yup from 'yup';
 
-import {getRegister, registerRequest} from '../../../redux/register';
-import {getLogin} from '../../../redux/login';
 import Auth from '../../../common/containers/Auth/Auth';
+import FormikInput from '../../../common/components/FormikInput/FormikInput';
 import pageTitleService from "../../../common/settings/pageTitleService/pageTitleService";
 
-class Register extends Component {
-  state = {
-    email: '',
-    name: '',
-    surname: '',
-    password: '',
-  };
-
-  componentDidMount() {
+function Register({registerError, onSubmitRegister, isRegisterSubmitted }) {
+  useEffect(() => {
     pageTitleService("Регистрация");
     return () => pageTitleService();
+  });
+
+  if (isRegisterSubmitted) {
+    return <Redirect to="/login" />;
   }
 
-  componentDidUpdate(prevProps) {
-    const {register: {token}, history} = this.props;
-
-    if (token && token !== prevProps.register.token) {
-      history.push('/login');
-    }
-  }
-
-  onInputChange = event => {
-    let input = event.target;
-    this.setState({[input.name]: input.value});
-  };
-
-  onRegisterSubmit = event => {
-    event.preventDefault();
-    const {registerRequest} = this.props;
-    registerRequest(this.state);
-  };
-
-  render() {
-    const {register: {isLoading}, login: {isLoggedIn}} = this.props;
-
-    if (isLoggedIn) {
-      return <Redirect to="/map"/>;
-    }
-
-    return (
-      <Auth>
-        <Typography variant="h5" component="h3">Регистрация</Typography>
-        <Box mt={1}>
-          <Typography variant="body1">
-            Уже зарегистрирован? <Link component={RouterLink} to="/login" data-testid="to-login">Войти</Link>
-          </Typography>
-        </Box>
-        <form noValidate onSubmit={this.onRegisterSubmit} data-testid="register">
-          <TextField inputProps={{"data-testid": "registerEmail"}} fullWidth margin="normal" name="email" label="Адрес электронной почты" required
-                     type="email" onChange={this.onInputChange}/>
+  return (
+    <Fragment>
+      <Typography variant="h5" component="h3">
+        Регистрация
+      </Typography>
+      <Box mt={1}>
+        <Typography variant="body1"><span>Уже зарегистрирован? </span>
+          <Link component={RouterLink} to="/login" data-testid="to-login">
+            Войти
+          </Link>
+        </Typography>
+      </Box>
+      <Formik
+        initialValues={{ email: '', password: '', name: '', surname: '' }}
+        onSubmit={onSubmitRegister}
+        validationSchema={Yup.object({
+          email: Yup.string()
+            .email('Введите email')
+            .required('Это обязательное поле'),
+          password: Yup.string()
+            .min(6, 'Пароль должен состоять минимум из 6 символов')
+            .required('Это обязательное поле'),
+          name: Yup.string()
+            .required('Это обязательное поле'),
+          surname: Yup.string()
+            .required('Это обязательное поле'),
+        })}>
+        <Form data-testid="register">
+          <FormikInput
+            inputProps={{"data-testid": "registerEmail"}}
+            margin="normal"
+            label="Адрес электронной почты"
+            type="email"
+            name="email"
+            fullWidth
+          />
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField inputProps={{"data-testid": "registerName"}} fullWidth margin="normal" name="name" label="Имя" required
-                         onChange={this.onInputChange}/>
+              <FormikInput
+                inputProps={{"data-testid": "registerName"}}
+                margin="normal"
+                label="Имя"
+                name="name"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField inputProps={{"data-testid": "registerSurname"}} fullWidth margin="normal" name="surname" label="Фамилия" required
-                         onChange={this.onInputChange}/>
+              <FormikInput
+                inputProps={{"data-testid": "registerSurname"}}
+                fullWidth
+                margin="normal"
+                label="Фамилия"
+                name="surname"
+              />
             </Grid>
           </Grid>
-          <TextField inputProps={{"data-testid": "registerPassword"}} fullWidth margin="normal" name="password" label="Пароль" required type="password"
-                     onChange={this.onInputChange}/>
+          <FormikInput
+            inputProps={{"data-testid": "registerPassword"}}
+            fullWidth
+            margin="normal"
+            label="Пароль"
+            type="password"
+            name="password"
+            errorMessage={registerError}
+          />
           <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button data-testid="registerSubmitButton" variant="contained" type="submit" disabled={isLoading}>Зарегистрироваться</Button>
+            <Button variant="contained" type="submit" data-testid="registerSubmitButton">Зарегистрироваться</Button>
           </Box>
-        </form>
-      </Auth>
-    );
-  }
+        </Form>
+      </Formik>
+    </Fragment>
+  );
 }
 
-const mapStateToProps = state => ({
-  register: getRegister(state),
-  login: getLogin(state)
-});
-
-Register.propTypes = {
-  register: PropTypes.shape({
-    isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string,
-  }).isRequired,
-  login: PropTypes.shape({
-    isLoggedIn: PropTypes.bool.isRequired,
-  }),
-  registerRequest: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, {registerRequest})(Register);
+export default Auth(Register);
